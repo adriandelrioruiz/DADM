@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="New Quotation"
+        android:id="@id/newQuotationFragment"
+        android:icon="@drawable/quote_vector"/>
+    <item android:title="Favourites"
+        android:id="@id/favouritesFragment"
+        android:icon="@drawable/favourite_vector"/>
+    <item android:title="Settings"
+        android:id="@id/settingsFragment"
+        android:icon="@drawable/settings_vector" />
+
+</menu>
