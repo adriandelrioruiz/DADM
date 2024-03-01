@@ -40,7 +40,8 @@ android {
 }
 
 dependencies {
-
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.core:core-ktx:1.12.0")

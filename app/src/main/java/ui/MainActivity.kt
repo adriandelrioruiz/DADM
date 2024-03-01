@@ -2,6 +2,7 @@ package ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), MenuProvider{
         binding.bottomNavigationView.setupWithNavController(navController)
         // establecemos la barra creada como nueva barra de acción
         setSupportActionBar(binding.materialToolbar)
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.favouritesFragment, R.id.aboutFragment, R.id.settingsFragment, R.id.newQuotationFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.favouritesFragment, R.id.aboutFragment, R.id.settingsFragment, R.id.swipeToRefresh))
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity(), MenuProvider{
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        if (menuItem.itemId == R.id.aboutFragment)
+        if (menuItem.itemId == R.id.aboutItem)
         {
             navController.navigate(R.id.aboutFragment)
             return true

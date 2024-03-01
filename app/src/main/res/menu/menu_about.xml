@@ -5,6 +5,6 @@
 
     <item
         android:title="About"
-        android:id="@id/aboutFragment"
+        android:id="@+id/aboutItem"
         app:showAsAction="never" />
 </menu>

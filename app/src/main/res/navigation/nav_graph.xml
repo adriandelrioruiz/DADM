@@ -2,10 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/newQuotationFragment">
+    app:startDestination="@id/swipeToRefresh">
 
     <fragment
-        android:id="@id/newQuotationFragment"
+        android:id="@id/swipeToRefresh"
         android:name="ui.newquotation.NewQuotationFragment"
         android:label="New quotation" />
     <dialog
@@ -14,7 +14,7 @@
         android:label="About" />
     <fragment
         android:id="@id/favouritesFragment"
-        android:name="ui.favourites.FavouritesFragment"
+        android:name=""
         android:label="Favourite Quotations"/>
     <fragment
         android:id="@id/settingsFragment"

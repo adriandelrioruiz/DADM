@@ -4,10 +4,10 @@
 
 
     <item android:title="New Quotation"
-        android:id="@id/newQuotationFragment"
+        android:id="@id/swipeToRefresh"
         android:icon="@drawable/quote_vector"/>
     <item android:title="Favourites"
-        android:id="@id/favouritesFragment"
+        android:id="@id/recyclerView"
         android:icon="@drawable/favourite_vector"/>
     <item android:title="Settings"
         android:id="@id/settingsFragment"
