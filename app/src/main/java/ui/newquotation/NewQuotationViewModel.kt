@@ -1,28 +1,14 @@
 package ui.newquotation
 
-import android.util.Log
-import androidx.constraintlayout.motion.utils.ViewState
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import domain.model.Quotation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class NewQuotationViewModel : ViewModel() {
 
-    data class ViewState (
-        val userName : String,
-        val quotation : Quotation?,
-        var isLoading : Boolean,
-        var favButtonVisible : Boolean
-    )
-
-    private val _viewState = MutableStateFlow(ViewState(getUserName(), null, false, false))
 
     private val _userName = MutableStateFlow(getUserName())
     private val _quotation = MutableStateFlow<Quotation?>(null)
@@ -34,11 +20,11 @@ class NewQuotationViewModel : ViewModel() {
     }
 
     fun addNewFavourite() {
-        _favButtonVisible.value = false
+        _favButtonVisible.update { false }
     }
 
     fun getNewQuotation() {
-        _viewState.value.isLoading = true
+        _isLoading.update { true }
         val num = (0..99).random()
 
         _quotation.update {
@@ -48,10 +34,8 @@ class NewQuotationViewModel : ViewModel() {
                 author = "Author #$num"
             )
         }
-        _viewState.value.favButtonVisible = true
-        _viewState.value.isLoading = false
-
-
+        _favButtonVisible.update { true }
+        _isLoading.update { false }
     }
 
 
@@ -63,8 +47,6 @@ class NewQuotationViewModel : ViewModel() {
         get() = _isLoading.asStateFlow()
     val favButtonVisible: StateFlow<Boolean>
         get() = _favButtonVisible.asStateFlow()
-    val viewState: StateFlow<ViewState>
-        get() = _viewState.asStateFlow()
 
 
 

@@ -14,10 +14,14 @@
         android:label="About" />
     <fragment
         android:id="@id/favouritesFragment"
-        android:name=""
+        android:name="ui.favourites.FavouritesFragment"
         android:label="Favourite Quotations"/>
     <fragment
         android:id="@id/settingsFragment"
         android:name="ui.settings.SettingsFragment"
         android:label="Settings" />
+    <dialog
+        android:id="@+id/deleteAllFavouriteDialog"
+        android:name="ui.favourites.DeleteAllDialogFragment"
+        android:label="Delete All Dialogs" />
 </navigation>

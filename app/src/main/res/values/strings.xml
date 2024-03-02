@@ -2,4 +2,7 @@
     <string name="app_name">QuotationShake</string>
     <string name="anonymous">Anonymous</string>
     <string name="new_quotation_welcome">Hello %1s!,\n\nRefresh to get a new quotation\n\n(swipe down or options menu)</string>
+    <string name="new_quotation_title">New Quotation</string>
+    <string name="favourites_title">Favourites</string>
+    <string name="settings_title">Settings</string>
 </resources>

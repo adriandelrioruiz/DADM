@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dadm.aidelrio.quotationshake.R
 import dadm.aidelrio.quotationshake.databinding.FragmentNewQuotationBinding
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProvider {
@@ -28,36 +29,48 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         _binding = FragmentNewQuotationBinding.bind(view)
         // Añadimos esta instancia como proveedor de menús a su actividad solo cuando el fragmento sea interactivo
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        // Añadimos al botón un Listener para que haga su acción de añadir un favorito
-        binding.addFavouriteButton.setOnClickListener{viewModel.addNewFavourite()}
-        // Añadimos al swipeToRefresh un Listener para que busque una nueva cita
-        binding.swipeToRefresh.setOnRefreshListener{viewModel.getNewQuotation()}
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-
-                viewModel.viewState.collect{viewState ->
-
-                    val userName = viewState.userName
-                    val quotation = viewState.quotation
-                    val buttonVisible = viewState.favButtonVisible
-
-                    binding.swipeToRefresh.isRefreshing = viewState.isLoading
-                    binding.bienvenidaTextView.text = getString(R.string.new_quotation_welcome, userName.ifEmpty{ getString(R.string.anonymous) })
-                    binding.addFavouriteButton.isVisible = buttonVisible
-
-                    if (quotation == null) {
-                        binding.bienvenidaTextView.isVisible = true
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.isLoading.collect { isLoading ->
+                        binding.swipeToRefresh.isRefreshing = isLoading
                     }
-                    else
-                    {
-                        binding.bienvenidaTextView.isVisible = false
-                        binding.citeTextView.text = quotation.text
-                        if (quotation.author.isEmpty())
-                            binding.authorTextView.text = "Anonymous"
-                        else
-                            binding.authorTextView.text = quotation.author
+                }
+
+                launch {
+                    viewModel.userName.collect { userName ->
+                        binding.bienvenidaTextView.text = getString(
+                            R.string.new_quotation_welcome,
+                            userName.ifEmpty { getString(R.string.anonymous) })
                     }
-                }}
+                }
+
+                launch {
+                    viewModel.favButtonVisible.collect { favButtonVisible ->
+                        binding.addFavouriteButton.isVisible = favButtonVisible
+                    }
+                }
+
+                launch {
+                    viewModel.quotation.collect { quotation ->
+                        if (quotation == null) {
+                            binding.bienvenidaTextView.isVisible = true
+                        } else {
+                            binding.bienvenidaTextView.isVisible = false
+                            binding.citeTextView.text = quotation.text
+                            if (quotation.author.isEmpty())
+                                binding.authorTextView.text = "Anonymous"
+                            else
+                                binding.authorTextView.text = quotation.author
+                        }
+                    }
+                }
+                // Añadimos al botón un Listener para que haga su acción de añadir un favorito
+                binding.addFavouriteButton.setOnClickListener{viewModel.addNewFavourite()}
+                // Añadimos al swipeToRefresh un Listener para que busque una nueva cita
+                binding.swipeToRefresh.setOnRefreshListener{viewModel.getNewQuotation()}
+            }
+
         }
     }
 
