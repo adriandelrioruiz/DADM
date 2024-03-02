@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dadm.aidelrio.quotationshake.R
 import dadm.aidelrio.quotationshake.databinding.FragmentNewQuotationBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProvider {
@@ -59,7 +58,7 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                             binding.bienvenidaTextView.isVisible = false
                             binding.citeTextView.text = quotation.text
                             if (quotation.author.isEmpty())
-                                binding.authorTextView.text = "Anonymous"
+                                binding.authorTextView.text = R.string.anonymous.toString()
                             else
                                 binding.authorTextView.text = quotation.author
                         }
