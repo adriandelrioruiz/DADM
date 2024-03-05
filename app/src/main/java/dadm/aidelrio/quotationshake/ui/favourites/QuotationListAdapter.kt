@@ -1,14 +1,16 @@
-package ui.favourites
+package dadm.aidelrio.quotationshake.ui.favourites
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import dadm.aidelrio.quotationshake.databinding.QuotationItemBinding
-import domain.model.Quotation
+import dadm.aidelrio.quotationshake.domain.model.Quotation
 
-class QuotationListAdapter : ListAdapter<Quotation, QuotationListAdapter.ViewHolder>(QuotationDiff) {
+class QuotationListAdapter(private val onItemClick: (String) -> Unit) : ListAdapter<Quotation, QuotationListAdapter.ViewHolder>(
+    QuotationDiff
+) {
 
     object QuotationDiff : DiffUtil.ItemCallback<Quotation>() {
         override fun areItemsTheSame(oldItem: Quotation, newItem: Quotation): Boolean {
@@ -21,7 +23,7 @@ class QuotationListAdapter : ListAdapter<Quotation, QuotationListAdapter.ViewHol
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(QuotationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(QuotationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), onItemClick)
     }
 
 
@@ -29,7 +31,13 @@ class QuotationListAdapter : ListAdapter<Quotation, QuotationListAdapter.ViewHol
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(private val binding: QuotationItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: QuotationItemBinding, val onItemClick: (String) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                onItemClick(binding.authorTextView.text.toString())
+            }
+        }
 
         fun bind(quotation: Quotation) {
             binding.authorTextView.text = quotation.author

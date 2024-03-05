@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -41,6 +42,8 @@ android {
 
 dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("com.google.dagger:hilt-android:2.50")
+    ksp("com.google.dagger:hilt-compiler:2.50")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")

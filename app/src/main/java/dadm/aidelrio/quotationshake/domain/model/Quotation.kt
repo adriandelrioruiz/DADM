@@ -1,4 +1,4 @@
-package domain.model
+package dadm.aidelrio.quotationshake.domain.model
 
 data class Quotation(val id : String, val text : String, val author : String) {
 

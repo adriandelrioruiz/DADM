@@ -1,4 +1,4 @@
-package ui.settings
+package dadm.aidelrio.quotationshake.ui.settings
 
 import android.os.Bundle
 import android.view.View

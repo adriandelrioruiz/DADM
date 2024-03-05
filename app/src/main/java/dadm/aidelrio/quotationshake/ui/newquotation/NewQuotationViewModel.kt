@@ -1,14 +1,17 @@
-package ui.newquotation
+package dadm.aidelrio.quotationshake.ui.newquotation
 
 import androidx.lifecycle.ViewModel
-import domain.model.Quotation
+import dadm.aidelrio.quotationshake.domain.model.Quotation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class NewQuotationViewModel : ViewModel() {
-
+@HiltViewModel
+class NewQuotationViewModel @Inject
+constructor(): ViewModel() {
 
     private val _userName = MutableStateFlow(getUserName())
     private val _quotation = MutableStateFlow<Quotation?>(null)

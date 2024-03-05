@@ -1,4 +1,4 @@
-package ui.newquotation
+package dadm.aidelrio.quotationshake.ui.newquotation
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,17 +8,20 @@ import android.view.View
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dadm.aidelrio.quotationshake.R
 import dadm.aidelrio.quotationshake.databinding.FragmentNewQuotationBinding
+import dadm.aidelrio.quotationshake.ui.favourites.FavouritesViewModel
 import kotlinx.coroutines.launch
 
 class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProvider {
 
     private val viewModel: NewQuotationViewModel by viewModels()
+    private val favouritesViewModel: FavouritesViewModel by activityViewModels()
 
     private var _binding : FragmentNewQuotationBinding? = null
     private val binding get() = _binding!!
@@ -65,7 +68,12 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                     }
                 }
                 // Añadimos al botón un Listener para que haga su acción de añadir un favorito
-                binding.addFavouriteButton.setOnClickListener{viewModel.addNewFavourite()}
+                binding.addFavouriteButton.setOnClickListener{
+                    viewModel.addNewFavourite()
+                    viewModel.quotation.value?.let { quotation ->
+                        favouritesViewModel.addFavouriteQuotation(quotation)
+                    }
+                }
                 // Añadimos al swipeToRefresh un Listener para que busque una nueva cita
                 binding.swipeToRefresh.setOnRefreshListener{viewModel.getNewQuotation()}
             }

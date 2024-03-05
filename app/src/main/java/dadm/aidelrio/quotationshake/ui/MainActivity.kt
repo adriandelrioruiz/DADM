@@ -1,11 +1,10 @@
-package ui
+package dadm.aidelrio.quotationshake.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -21,9 +20,9 @@ class MainActivity : AppCompatActivity(), MenuProvider{
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         // Añade esta instancia como proveedor de menús a la barra de acción
         addMenuProvider(this)
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_favourites)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         binding.bottomNavigationView as NavigationBarView
