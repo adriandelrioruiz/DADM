@@ -1,9 +1,18 @@
 <resources>
     <string name="app_name" translatable="false">QuotationShake</string>
-    <string name="new_quotation_welcome">Hello %1s!,  Refresh to get a new quotation  (swipe down or go options menu)</string>
+    <string name="new_quotation_welcome">Hello %1s!\n Refresh to get a new quotation  (swipe down or go options menu)</string>
     <string name="new_quotation_title">New Quotation</string>
     <string name="favourites_title">Favourites</string>
     <string name="settings_title">Settings</string>
+    <string name="refresh">Refresh</string>
     <string name="anonymous">Anonymous</string>
-    <string name="no_activity_available">No activity is available</string>
+    <string name="sudden_error">There was a sudden error</string>
+    <string name="en_language">English</string>
+    <string name="ru_language">Russian</string>
+    <string name="developer_image_text">Developer\'s pic</string>
+    <string name="app_description">QuotationShake by \n\nAdrián del Río Ruiz\n\nadriandelrioruiz0@gmail.com \n\nDeveloped for DADM 2024</string>
+    <string name="add_favourite_button_description">Add quote to favourites</string>
+    <string name="about_title">About</string>
+    <string name="delete_all_quotations_menu_option">Delete all quotations</string>
+    <string name="no_internet_error">No Internet connection</string>
 </resources>

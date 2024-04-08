@@ -1,22 +1,21 @@
 package dadm.aidelrio.quotationshake.ui.settings
 
 import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceDataStore
+import androidx.preference.PreferenceFragmentCompat
 import dadm.aidelrio.quotationshake.R
-import dadm.aidelrio.quotationshake.databinding.FragmentSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
+@AndroidEntryPoint
+class SettingsFragment : PreferenceFragmentCompat() {
 
-    private var _binding : FragmentSettingsBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = FragmentSettingsBinding.bind(view)
+    @Inject
+    lateinit var preferenceDataStore : PreferenceDataStore
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        preferenceManager.preferenceDataStore = preferenceDataStore
+        setPreferencesFromResource(R.xml.preferences_settings, rootKey)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 }

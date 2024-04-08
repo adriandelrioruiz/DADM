@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -21,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dadm.aidelrio.quotationshake.R
 import dadm.aidelrio.quotationshake.databinding.FragmentFavouritesBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider {
     private val viewModel: FavouritesViewModel by activityViewModels()
     private val itemTouchHelper = ItemTouchHelper(SwipeToRightCallback())
@@ -30,15 +31,19 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider 
     private val binding get() = _binding!!
 
     private fun getAuthorInfo(authorName : String) {
-        if (authorName.equals(R.string.anonymous))
+        if (authorName.isEmpty())
             Snackbar.make(binding.favouritesFragment, "Autor anónimo", Snackbar.LENGTH_SHORT).show()
-        else
-        {
-            val intent = Intent().setAction(Intent.ACTION_VIEW).setData(Uri.parse("https://en.wikipedia.org/wiki/Special:Search?search=" + authorName))
+        else {
+            val intent = Intent().setAction(Intent.ACTION_VIEW)
+                .setData(Uri.parse("https://en.wikipedia.org/wiki/Special:Search?search=$authorName"))
             try {
                 startActivity(intent)
             } catch (e: ActivityNotFoundException) {
-                Snackbar.make(binding.favouritesFragment, "No hay ninguna actividad disponible", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.favouritesFragment,
+                    "No hay ninguna actividad disponible",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -46,7 +51,6 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        requireActivity().invalidateMenu()
         _binding = FragmentFavouritesBinding.bind(view)
         val adapter = QuotationListAdapter(::getAuthorInfo)
         binding.recyclerView.adapter = adapter
@@ -54,13 +58,19 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider 
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.quotationList.collect{ list ->
+                viewModel.quotationList.collect { list ->
                     adapter.submitList(list)
                 }
             }
         }
 
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isDeleteAllMenuVisible.collect {
+                    requireActivity().invalidateOptionsMenu()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -73,8 +83,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider 
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        if (menuItem.itemId == R.id.favouritesItem)
-        {
+        if (menuItem.itemId == R.id.favouritesItem) {
             findNavController().navigate(R.id.deleteAllFavouriteDialog)
             return true
         }
@@ -82,11 +91,13 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider 
     }
 
     override fun onPrepareMenu(menu: Menu) {
-        if (!viewModel.isDeleteAllMenuVisible.value)
-            menu.removeItem(R.menu.menu_favourites)
+        // Ocultar o mostrar el elemento de menú en base al valor de isDeleteAllMenuVisible
+        val deleteAllItem = menu.findItem(R.id.favouritesItem)
+        deleteAllItem.isVisible = viewModel.isDeleteAllMenuVisible.value
     }
 
-    inner class SwipeToRightCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
+
+    inner class SwipeToRightCallback : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
 
         override fun onMove(
             recyclerView: RecyclerView,
@@ -97,7 +108,6 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MenuProvider 
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            Log.i("hola", viewHolder.adapterPosition.toString())
             viewModel.deleteQuotationAtPosition(viewHolder.adapterPosition)
         }
 

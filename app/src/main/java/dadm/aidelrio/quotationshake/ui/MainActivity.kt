@@ -14,7 +14,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationBarView
 import dadm.aidelrio.quotationshake.R
 import dadm.aidelrio.quotationshake.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MenuProvider{
 
     private lateinit var navController: NavController

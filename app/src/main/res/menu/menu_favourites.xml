@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Delete all quotations"
+    <item android:title="@string/delete_all_quotations_menu_option"
         android:id="@+id/favouritesItem"
         app:showAsAction="never"/>
 </menu>

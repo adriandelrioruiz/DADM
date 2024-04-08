@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/swipeToRefresh">
 
     <fragment
         android:id="@id/swipeToRefresh"
         android:name="dadm.aidelrio.quotationshake.ui.newquotation.NewQuotationFragment"
-        android:label="New quotation" />
+        android:label="@string/new_quotation_title" />
     <dialog
         android:id="@id/aboutFragment"
         android:name="dadm.aidelrio.quotationshake.ui.about.AboutDialogFragment"
-        android:label="About" />
+        android:label="@string/about_title" />
     <fragment
         android:id="@id/favouritesFragment"
         android:name="dadm.aidelrio.quotationshake.ui.favourites.FavouritesFragment"
-        android:label="Favourite Quotations"/>
+        android:label="@string/favourites_title"/>
     <fragment
         android:id="@id/settingsFragment"
         android:name="dadm.aidelrio.quotationshake.ui.settings.SettingsFragment"
-        android:label="Settings" />
+        android:label="@string/settings_title" />
     <dialog
         android:id="@+id/deleteAllFavouriteDialog"
         android:name="dadm.aidelrio.quotationshake.ui.favourites.DeleteAllDialogFragment"

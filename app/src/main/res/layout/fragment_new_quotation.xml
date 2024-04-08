@@ -24,16 +24,17 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <LinearLayout
-                android:id="@+id/linear_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/bienvenidaTextView">
+                app:layout_constraintEnd_toEndOf="@id/bienvenidaTextView"
+                >
 
                 <TextView
                     android:id="@+id/citeTextView"
+                    android:layout_margin="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -42,6 +43,7 @@
 
                 <TextView
                     android:id="@+id/authorTextView"
+                    android:layout_margin="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -60,7 +62,7 @@
             android:src="@drawable/favourite_vector"
             android:layout_margin="15dp"
             android:layout_gravity="bottom|end"
-            android:contentDescription="Añadir la cita a favoritos">
+            android:contentDescription="@string/add_favourite_button_description">
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     </FrameLayout>

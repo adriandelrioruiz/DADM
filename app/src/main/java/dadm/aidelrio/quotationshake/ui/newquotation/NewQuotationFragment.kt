@@ -13,15 +13,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import dadm.aidelrio.quotationshake.R
 import dadm.aidelrio.quotationshake.databinding.FragmentNewQuotationBinding
 import dadm.aidelrio.quotationshake.ui.favourites.FavouritesViewModel
+import dadm.aidelrio.quotationshake.utils.NoInternetException
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProvider {
 
     private val viewModel: NewQuotationViewModel by viewModels()
-    private val favouritesViewModel: FavouritesViewModel by activityViewModels()
 
     private var _binding : FragmentNewQuotationBinding? = null
     private val binding get() = _binding!!
@@ -31,6 +34,28 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
         _binding = FragmentNewQuotationBinding.bind(view)
         // Añadimos esta instancia como proveedor de menús a su actividad solo cuando el fragmento sea interactivo
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        // Añadimos al botón un Listener para que haga su acción de añadir un favorito
+        binding.addFavouriteButton.setOnClickListener{
+            viewModel.addNewFavourite()
+            /*viewModel.quotation.value?.let { quotation ->
+                favouritesViewModel.addFavouriteQuotation(quotation)
+            }*/
+        }
+
+        // Añadimos al swipeToRefresh un Listener para que busque una nueva cita
+        binding.swipeToRefresh.setOnRefreshListener{viewModel.getNewQuotation()}
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.favButtonVisible.collect { favButtonVisible ->
+                        binding.addFavouriteButton.isVisible = favButtonVisible
+                    }
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -38,6 +63,11 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                         binding.swipeToRefresh.isRefreshing = isLoading
                     }
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
                     viewModel.userName.collect { userName ->
@@ -46,12 +76,12 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                             userName.ifEmpty { getString(R.string.anonymous) })
                     }
                 }
+            }
+        }
 
-                launch {
-                    viewModel.favButtonVisible.collect { favButtonVisible ->
-                        binding.addFavouriteButton.isVisible = favButtonVisible
-                    }
-                }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
                     viewModel.quotation.collect { quotation ->
@@ -61,23 +91,30 @@ class NewQuotationFragment : Fragment(R.layout.fragment_new_quotation), MenuProv
                             binding.bienvenidaTextView.isVisible = false
                             binding.citeTextView.text = quotation.text
                             if (quotation.author.isEmpty())
-                                binding.authorTextView.text = R.string.anonymous.toString()
+                                binding.authorTextView.text = getString(R.string.anonymous)
                             else
                                 binding.authorTextView.text = quotation.author
                         }
                     }
                 }
-                // Añadimos al botón un Listener para que haga su acción de añadir un favorito
-                binding.addFavouriteButton.setOnClickListener{
-                    viewModel.addNewFavourite()
-                    viewModel.quotation.value?.let { quotation ->
-                        favouritesViewModel.addFavouriteQuotation(quotation)
+            }
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.error.collect { error ->
+                        if (error != null) {
+                            if (error is NoInternetException)
+                                Snackbar.make(binding.swipeToRefresh, R.string.no_internet_error, Snackbar.LENGTH_SHORT).show()
+                            else
+                                Snackbar.make(binding.swipeToRefresh, R.string.sudden_error, Snackbar.LENGTH_SHORT).show()
+                        }
+                        viewModel.resetError()
                     }
                 }
-                // Añadimos al swipeToRefresh un Listener para que busque una nueva cita
-                binding.swipeToRefresh.setOnRefreshListener{viewModel.getNewQuotation()}
             }
-
         }
     }
 

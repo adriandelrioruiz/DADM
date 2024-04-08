@@ -8,4 +8,11 @@ data class Quotation(val id : String, val text : String, val author : String) {
 
         return text == other.text && author == other.author
     }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + text.hashCode()
+        result = 31 * result + author.hashCode()
+        return result
+    }
 }
