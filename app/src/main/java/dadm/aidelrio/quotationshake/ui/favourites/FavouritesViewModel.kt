@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@HiltViewModel
+    @HiltViewModel
 class FavouritesViewModel @Inject constructor(
     private val favouritesRepository: FavouritesRepository
 ): ViewModel() {
@@ -23,17 +23,6 @@ class FavouritesViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed()
     )
 
-    // LISTA DE FAVORITAS FAKE
-    /* private val _quotationList : MutableStateFlow<List<Quotation>> = MutableStateFlow(generateRandomQuotations(20))
-    val isDeleteAllMenuVisible = _quotationList.map { list ->
-        list.isNotEmpty()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = true
-    )
-    val quotationList : StateFlow<List<Quotation>>
-        get() = _quotationList.asStateFlow()*/
 
     val isDeleteAllMenuVisible = quotationList.map { list ->
         list.isNotEmpty()
@@ -55,24 +44,8 @@ class FavouritesViewModel @Inject constructor(
     fun deleteQuotationAtPosition(position: Int) {
         viewModelScope.launch{
             favouritesRepository.deleteQuote(quotationList.value[position])
-
         }
     }
-
-    // MÉTODOS FAKE
-    /* fun deleteAllFavouriteQuotations() {
-        _quotationList.update { listOf() }
-    }
-
-    fun deleteQuotationAtPosition(position: Int) {
-        val copyList = _quotationList.value.toList()
-        _quotationList.update { copyList.minus(copyList[position]) }
-    }
-
-    fun addFavouriteQuotation(quotation: Quotation) {
-        val copyList = _quotationList.value.toList()
-        _quotationList.update { copyList.plus(quotation) }
-    }*/
 
 
 }

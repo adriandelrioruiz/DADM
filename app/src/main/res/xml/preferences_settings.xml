@@ -7,13 +7,14 @@
         android:key="username_preference"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Seleccionar nombre de usuario"
+        android:title="@string/select_calories"
         app:useSimpleSummaryProvider="true"/>
     <ListPreference
         android:defaultValue="en"
         android:entries="@array/languages_fullname"
         android:entryValues="@array/languages_abbreviation"
         android:key="language_preference"
-        android:title="Seleccionar idioma"
+        android:title="@string/select_language"
         app:useSimpleSummaryProvider="true"/>
+
 </PreferenceScreen>

@@ -13,4 +13,5 @@
         android:gravity="center"
         android:text="@string/settings_title"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,4 +16,6 @@
     <string name="about_title">Acerca de</string>
     <string name="delete_all_quotations_menu_option">Eliminar todas las citas</string>
     <string name="no_internet_error">No hay conexión a Internet</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="select_calories">Objetivo de calorías diarias</string>
 </resources>

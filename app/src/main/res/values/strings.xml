@@ -15,4 +15,6 @@
     <string name="about_title">About</string>
     <string name="delete_all_quotations_menu_option">Delete all quotations</string>
     <string name="no_internet_error">No Internet connection</string>
+    <string name="select_language">Select language</string>
+    <string name="select_calories">Daily calories Goal</string>
 </resources>
